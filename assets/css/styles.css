@@ -1090,7 +1090,16 @@ body {
   
   .padd {
     margin-bottom: 200px;
-    padding: 0 80px;
+    padding: 10 80px;
+  }
+
+  .loginbutton {
+    padding: 0 25px;
+    text-align: center;
+    margin: 0 auto;
+    bottom: 0 !important;
+    position: absolute;
+    margin-bottom: 10px;
   }
 
   .inputusername {

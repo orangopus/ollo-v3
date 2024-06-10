@@ -5,14 +5,14 @@
     </a>
     <form class="m-5 navmargin">
       <div>
-      <NuxtLink to="/home" class="buttonwhite justify-center flex justify-center w-full center">
-        <Icon name="fa6-solid:house" class="navicon"/>
-        <span class="tooltip">Home</span>
-      </NuxtLink>
-      <NuxtLink to="/explore" class="buttonwhite justify-center flex justify-center w-full center">
-        <Icon name="fa6-solid:bars-staggered" class="navicon"/>
-        <span class="tooltip">Explore</span>
-      </NuxtLink>
+        <NuxtLink to="/home" class="buttonwhite justify-center flex justify-center w-full center">
+          <Icon name="fa6-solid:house" class="navicon"/>
+          <span class="tooltip">Home</span>
+        </NuxtLink>
+        <NuxtLink to="/explore" class="buttonwhite justify-center flex justify-center w-full center">
+          <Icon name="fa6-solid:bars-staggered" class="navicon"/>
+          <span class="tooltip">Explore</span>
+        </NuxtLink>
       </div>
       <div v-if="user && user.id" class="absolute bottom-0 absolute">
         <button
@@ -49,32 +49,41 @@
           </div>
         </div>
       </div>
-      <NuxtLink v-else to="/login" class="mt-2.5">
-        <button class="button" style="margin-top: -9px; margin-right: 12px">Login</button>
+      <NuxtLink v-else to="/login" class="mt-2.5 bottom-0 buttonwhite loginbutton">
+        <Icon name="solar:user-broken" class="navicon"/>
+        <span class="tooltip">Login</span>
       </NuxtLink>
     </form>
   </nav>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
-
-const { data: profile } = await useAsyncData('profiles', async () => {
-  const { data } = await supabase.from('profiles').select("*").eq('id', user.id).single()
-
-  return data
-})
-
-const { data: profiles } = await useAsyncData('profiles', async () => {
-  const { data } = await supabase.from('profiles').select("*")
-  return data
-})
 
 const isDropdownVisible = ref(false)
 
 const toggleDropdown = () => {
   isDropdownVisible.value = !isDropdownVisible.value
+}
+
+const profiles = await getProfiles()
+
+// Check if user.value and user.value.id are defined before attempting to find the profile
+const profile = user.value ? profiles.find((profile) => profile.id === user.value.id) : null
+
+async function getProfiles() {
+  if (user) {
+    try {
+      return await $fetch('/api/profiles')
+    } catch (error) {
+      console.error('Error fetching profiles:', error)
+      return []
+    }
+  }
+  return []
 }
 
 const signOut = async () => {
