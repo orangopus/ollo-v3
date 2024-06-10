@@ -1,17 +1,17 @@
 <template>
     <div>
     <div class="grid grid-card container profilescont center p-5">
-    <div
-      :style="{ background: `url(https://${profile?.background_url})`}"
+    <div class="items-center justify-center center"
+      :style="{ background: `url(https://${profile?.background_url})` }"
     >
-      <div class="center avatarcont">
+      <div class="center avatarcont" style="text-align: center;">
         <img
           class="avatar mt-10"
           :src="profile.avatar"
           alt="Avatar"
         />
       </div>
-      <div class="info mt-8 center">
+      <div class="info mt-8 center" style="text-align: center;">
         <h1 class="username">
           {{ twitch?.display_name || profile.displayname }}
           <span class="handle">@{{ twitch?.login || profile?.username }}</span>
