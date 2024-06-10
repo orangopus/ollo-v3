@@ -36,16 +36,16 @@
           id="dropdownAvatarName"
           class="dropdown-menu z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 absolute right-0 mt-2"
         >
-          <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+          <div class="px-4 py-3 text-sm text-white dark:text-white">
             <div class="font-medium">{{ profile?.displayname }}</div>
             <div class="truncate">{{ user.email }}</div>
           </div>
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
-            <li><NuxtLink class="block px-4 py-2 hover:bg-gray-100 hover:rounded-full dark:hover:bg-black dark:hover:text-white" to="/dashboard">Dashboard</NuxtLink></li>
-            <li><NuxtLink class="block px-4 py-2 hover:bg-gray-100 hover:rounded-full dark:hover:bg-black dark:hover:text-white" :to="`${profile?.username}`">Profile</NuxtLink></li>
+            <li><NuxtLink class="block px-4 py-2 hover:bg-gray-800 hover:rounded-full dark:hover:bg-black dark:hover:text-white" to="/dashboard">Dashboard</NuxtLink></li>
+            <li><NuxtLink class="block px-4 py-2 hover:bg-gray-800 hover:rounded-full dark:hover:bg-black dark:hover:text-white" :to="`${profile?.username}`">Profile</NuxtLink></li>
           </ul>
           <div class="py-2">
-            <a href="#" @click="signOut" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:rounded-full dark:hover:bg-black dark:text-red-600 dark:hover:text-red">Sign out</a>
+            <a href="#" @click="signOut" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-800 hover:rounded-full dark:hover:bg-black dark:text-red-600 dark:hover:text-red">Sign out</a>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 
 const { data: profile } = await useAsyncData('profiles', async () => {
-  const { data } = await supabase.from('profiles').select("*").eq('id', user.value.id).single()
+  const { data } = await supabase.from('profiles').select("*").eq('id', user.id).single()
 
   return data
 })
@@ -105,13 +105,12 @@ const signOut = async () => {
 }
 
 .dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin-top: 0.5rem;
-  border-radius: 25px;
-  z-index: 1000;
+  position: absolute; /* Absolute positioning within the parent */
+  left: 200px; /* Position it to the right of the avatar */
+  bottom: 120px; /* Align to the bottom */
+  margin-left: 10px; /* Optional: add some spacing */
+  border-radius: 25px; /* Keep the border radius */
+  z-index: 1000; 
 }
 
 li {
